@@ -1,5 +1,3 @@
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,7 +9,7 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 
-public class GameEngine implements GameReporter{
+public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
 	private SpaceShip v;
@@ -65,4 +63,37 @@ public class GameEngine implements GameReporter{
 		return score;
 	}
 	
+	public void controlVehicle(KeyEvent e){
+		switch (e.getKeyCode()){
+			case KeyEvent.VK_LEFT:
+				v.move(-1);
+				v1.move(-1);
+				v2.move(-1);
+				v3.move(-1);
+				v4.move(-1);
+				break;
+			case KeyEvent.VK_RIGHT:
+				v.move(1);
+				v1.move(1);
+				v2.move(1);
+				v3.move(1);
+				v4.move(1);
+				break;		
+				}
+			}
+
+	@Override
+	public void keyPressed(KeyEvent e){
+		controlVehicle(e);
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e){
+		
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e){
+	
+	}
 }
