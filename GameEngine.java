@@ -11,13 +11,15 @@ import javax.swing.Timer;
 
 public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
-		
+	
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
 	private SpaceShip v;
 	private SpaceShip v1;
 	private SpaceShip v2;
 	private SpaceShip v3;
 	private SpaceShip v4;	
 	private long score = 0;
+	private double difficulty = 0.1;
 	private Timer timer;
 	
 	public GameEngine(GamePanel gp, SpaceShip v, SpaceShip v1, SpaceShip v2,SpaceShip v3, SpaceShip v4) {
@@ -48,9 +50,30 @@ public class GameEngine implements KeyListener, GameReporter{
 	public void start(){
 		timer.start();
 	}
+
+	private void generateEnemy(){
+		Enemy e = new Enemy((int)(Math.random()*390), 30);
+		gp.sprites.add(e);
+		enemies.add(e);
+	}
 	
 	private void process(){
+		if(Math.random() < difficulty){
+			generateEnemy();
+		}
 		
+		Iterator<Enemy> e_iter = enemies.iterator();
+		while(e_iter.hasNext()){
+			Enemy e = e_iter.next();
+			e.proceed();
+			
+			if(!e.isAlive()){
+				e_iter.remove();
+				gp.sprites.remove(e);
+				score += 100;
+			}
+		}
+
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
@@ -58,6 +81,34 @@ public class GameEngine implements KeyListener, GameReporter{
 		Rectangle2D.Double vr2 = v2.getRectangle();
 		Rectangle2D.Double vr3 = v3.getRectangle();
 		Rectangle2D.Double vr4 = v4.getRectangle();
+		Rectangle2D.Double er;
+		for(Enemy e : enemies){
+			er = e.getRectangle();
+			if(er.intersects(vr)){
+				die();
+				return;
+			}
+			if(er.intersects(vr1)){
+				die();
+				return;
+			}
+			if(er.intersects(vr2)){
+				die();
+				return;
+			}
+			if(er.intersects(vr3)){
+				die();
+				return;
+			}
+			if(er.intersects(vr4)){
+				die();
+				return;
+			}
+		}
+	}
+
+	public void die(){
+		timer.stop();
 	}
 	public long getScore(){
 		return score;
@@ -78,7 +129,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				v2.move(1);
 				v3.move(1);
 				v4.move(1);
-				break;		
+				break;	
 				}
 			}
 
