@@ -22,6 +22,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	private double difficulty = 0.1;
 	private Timer timer;
 	
+	
 	public GameEngine(GamePanel gp, SpaceShip v, SpaceShip v1, SpaceShip v2,SpaceShip v3, SpaceShip v4) {
 		this.gp = gp;
 		this.v = v;
@@ -72,8 +73,9 @@ public class GameEngine implements KeyListener, GameReporter{
 				gp.sprites.remove(e);
 				score += 100;
 			}
+		
 		}
-
+		
 		gp.updateGameUI(this);
 		
 		Rectangle2D.Double vr = v.getRectangle();
@@ -110,6 +112,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	public void die(){
 		timer.stop();
 	}
+
 	public long getScore(){
 		return score;
 	}
@@ -130,6 +133,11 @@ public class GameEngine implements KeyListener, GameReporter{
 				v3.move(1);
 				v4.move(1);
 				break;	
+			case KeyEvent.VK_P:
+				die();
+				break;
+			case KeyEvent.VK_C:
+				start();
 				}
 			}
 
