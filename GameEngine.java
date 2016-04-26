@@ -21,7 +21,7 @@ public class GameEngine implements KeyListener, GameReporter{
 	private long score = 0;
 	private double difficulty = 0.1;
 	private Timer timer;
-	
+	private int a = 1000;
 	
 	public GameEngine(GamePanel gp, SpaceShip v, SpaceShip v1, SpaceShip v2,SpaceShip v3, SpaceShip v4) {
 		this.gp = gp;
@@ -61,6 +61,10 @@ public class GameEngine implements KeyListener, GameReporter{
 	private void process(){
 		if(Math.random() < difficulty){
 			generateEnemy();
+			if(score == a){
+				difficulty+=0.03;
+				a+=1000;
+			}
 		}
 		
 		Iterator<Enemy> e_iter = enemies.iterator();
